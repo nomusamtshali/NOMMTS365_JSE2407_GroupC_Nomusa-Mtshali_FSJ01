@@ -58,7 +58,7 @@ export default function ProductDetail() {
   }
 
   if (error) {
-    return <div className="text-center text-red-500 mt-8">Failed to load product details: {error}</div>;
+    return <div className="text-center text-red-500 mt-80 mb-80">{error}: Oops, failed to load product details</div>;
   }
 
   return (
@@ -99,14 +99,15 @@ export default function ProductDetail() {
           {/* product details */}
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-800 mb-4">{product.title}</h1>
-            <p className="text-2xl text-gray-600 mb-4">${product.price}</p>
+            <p className="text-gray-700 mb-4">{product.description}</p>
+            <p className="text-2xl text-gray-600 mb-2">${product.price}</p>
             <p className="text-md text-gray-500 mb-2">Category: {product.category}</p>
             <p className="text-md text-gray-500 mb-4">Tags: {product.tags.join(", ")}</p>
-            <p className="text-gray-700 mb-8">{product.description}</p>
+            
 
             <div className="flex flex-col items-center space-y-2">
               <p className="text-yellow-500">Rating: {product.rating} / 5</p>
-              <p className="text-gray-600">Stock: {product.stock > 0 ? "In stock" : "Out of stock"}</p>
+              <p className="text-gray-600">Stock: {product.stock}</p>
               <p className="text-gray-600">Availability: {product.availabilityStatus}</p>
             </div>
           </div>
@@ -120,7 +121,7 @@ export default function ProductDetail() {
               <div key={review.id} className="border p-4 rounded-lg shadow-lg mb-4">
                 <p className="font-bold text-md mb-2">{review.reviewerName} - ({review.reviewerEmail})</p>
                 <p className="text-gray-600 mb-2">{new Date(review.date).toLocaleDateString()}</p>
-                <p className="text-gray-700">{review.comment}</p>
+                <p>{review.comment}</p>
                 <p className="text-yellow-500 mt-2">Rating: {review.rating} / 5</p>
               </div>
             ))
