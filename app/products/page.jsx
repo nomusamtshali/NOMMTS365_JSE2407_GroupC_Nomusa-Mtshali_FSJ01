@@ -71,7 +71,7 @@ export default function ProductsPage() {
   }
 
   if (error) {
-    return <div className="text-red-500 text-center">Failed to load products: {error}</div>;
+    return <div className="text-red-500 text-center mt-60 mb-60">{error}: Oops, failed to load products</div>;
   }
 
   return (
@@ -87,8 +87,9 @@ export default function ProductsPage() {
 
             {/* Product Details */}
             <h2 className="text-lg font-semibold mb-2 truncate">{product.title}</h2>
-            <p className="text-gray-700 mb-2">${product.price}</p>
-            <p className="text-sm text-gray-500 mb-2">Category: {product.category}</p>
+            <p className="mb-2">Brand: {product.brand}</p>
+            <p className="mb-2">${product.price}</p>
+            <p className="text-sm text-gray-600 mb-2">Category: {product.category}</p>
 
             {/* Action Buttons */}
             <div className="flex justify-between text-md items-center mt-4 space-x-2">
