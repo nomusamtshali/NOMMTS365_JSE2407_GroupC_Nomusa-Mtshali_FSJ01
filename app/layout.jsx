@@ -2,7 +2,7 @@ import './styles/globals.css'
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 
-export default function RootLayout({ children }) {
+const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <body className="bg-gray-100">
@@ -13,3 +13,5 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
+export default RootLayout;
