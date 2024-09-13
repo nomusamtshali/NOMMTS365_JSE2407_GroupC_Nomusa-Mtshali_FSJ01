@@ -1,9 +1,10 @@
-"use client"; // Client Component
+"use client"; // Client-side component
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { FaHeart, FaShoppingCart } from "react-icons/fa"; // Icons
-
+import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import Skeleton from "../components/Skeleton";
+import Carousel from "../components/Carousel";
 
 // Fetch products with pagination
 async function fetchProducts(page = 1) {
@@ -13,44 +14,6 @@ async function fetchProducts(page = 1) {
     throw new Error("Failed to fetch products");
   }
   return res.json();
-}
-
-// Image Carousel Component
-function ImageCarousel({ images }) {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  const handleNext = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-  };
-
-  const handlePrevious = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-  };
-
-  return (
-    <div className="relative">
-      {/* Display current image */}
-      <img src={images[currentImageIndex]} alt="Product" className="h-40 w-full object-contain rounded-t-lg mb-4" />
-
-      {/* Display controls if more than one image */}
-      {images.length > 1 && (
-        <>
-          <button
-            className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white px-2 py-1 rounded"
-            onClick={handlePrevious}
-          >
-            ‹
-          </button>
-          <button
-            className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white px-2 py-1 rounded"
-            onClick={handleNext}
-          >
-            ›
-          </button>
-        </>
-      )}
-    </div>
-  );
 }
 
 export default function ProductsPage() {
@@ -87,8 +50,29 @@ export default function ProductsPage() {
     setLoading(true); // Set loading state
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
+  if (loading) {
+    return (
+      <div className="container mx-auto px-8">
+        <h1 className="text-3xl font-bold text-center mt-6 mb-6">Products</h1>
+
+        {/* Skeleton Grid for Loading State */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {Array(8).fill(0).map((_, idx) => (
+            <div key={idx} className="bg-white rounded-lg shadow-md p-4">
+              <Skeleton height="h-40" />
+              <Skeleton height="h-6" className="my-2" />
+              <Skeleton height="h-4" />
+              <Skeleton height="h-4" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="text-red-500 text-center">Failed to load products: {error}</div>;
+  }
 
   return (
     <div className="container mx-auto px-8">
@@ -99,7 +83,7 @@ export default function ProductsPage() {
         {products.map((product) => (
           <div key={product.id} className="bg-white rounded-lg shadow-md p-4 transition-transform transform hover:scale-105 hover:shadow-lg">
             {/* Image Carousel */}
-            <ImageCarousel images={product.images} />
+            <Carousel images={product.images} />
 
             {/* Product Details */}
             <h2 className="text-lg font-semibold mb-2 truncate">{product.title}</h2>
@@ -133,9 +117,7 @@ export default function ProductsPage() {
         <button
           disabled={currentPage === 1} // Disable when on first page
           onClick={() => handlePageChange(currentPage - 1)}
-          className={`bg-orange-500 text-white px-4 py-2 rounded-md ${
-            currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-orange-600"
-          }`}
+          className={`bg-orange-500 text-white px-4 py-2 rounded-md ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-orange-600"}`}
         >
           Previous
         </button>
@@ -147,5 +129,3 @@ export default function ProductsPage() {
     </div>
   );
 }
-
-
