@@ -1,10 +1,27 @@
-"use client"; 
+/**
+ * @module Header
+ * @description A responsive header component for the MaxiMart website.
+ * @requires react
+ * @requires react-icons/fa
+ * @requires next/link
+ */
+
+"use client";
 
 import { FaShoppingCart, FaHeart, FaUser, FaBars } from "react-icons/fa";
 import { useState } from "react";
 import Link from "next/link";
 
+/**
+ * Header component with responsive navigation and user action links.
+ * @returns {JSX.Element} The rendered Header component
+ */
+
 const Header = () => {
+  /**
+   * State to control the visibility of the mobile menu.
+   * @type {[boolean, function]} A tuple containing the state and its setter function
+   */
   const [isMenuOpen, setIsMenuOpen] = useState(false); // toggle state for the menu
 
   return (
@@ -55,7 +72,9 @@ const Header = () => {
 
       {/* dropdown menu for small screens */}
       <div
-        className={`lg:hidden ${isMenuOpen ? "block" : "hidden"} absolute top-16 left-0 w-full bg-white shadow-md`}
+        className={`lg:hidden ${
+          isMenuOpen ? "block" : "hidden"
+        } absolute top-16 left-0 w-full bg-white shadow-md`}
       >
         <div className="flex flex-col items-center p-4 space-y-4">
           <Link
@@ -74,7 +93,7 @@ const Header = () => {
             Products
           </Link>
 
-          <div  
+          <div
             className="flex items-center space-x-2 cursor-pointer hover:text-gray-600"
             onClick={() => setIsMenuOpen(false)}
           >

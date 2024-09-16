@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
 
+/**
+ * A carousel component that displays a sequence of images.
+ *
+ * @param {object} props - The component props.
+ * @param {array} props.images - An array of image URLs to display.
+ */
 const Carousel = ({ images }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 

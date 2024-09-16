@@ -1,4 +1,4 @@
-import './styles/globals.css'
+import "./styles/globals.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 
@@ -12,6 +12,6 @@ const RootLayout = ({ children }) => {
       </body>
     </html>
   );
-}
+};
 
 export default RootLayout;

@@ -1,16 +1,23 @@
+/**
+ * @module Footer
+ * @description A footer component for the MaxiMart website.
+ * @requires react-icons/fa
+ */
+
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 
+/**
+ * Footer component displaying company information and social media links.
+ * @returns {JSX.Element} The rendered Footer component
+ */
 const Footer = () => {
   return (
     <footer className="bg-white shadow-lg text-black py-6">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
-        
         {/* About Section */}
         <div>
           <h3 className="text-xl font-bold mb-4">MaxiMart</h3>
-          <p className="text-md font-semibold">
-          Everything Under One Roof!
-          </p>
+          <p className="text-md font-semibold">Everything Under One Roof!</p>
         </div>
 
         {/* Social Media Links */}
@@ -39,4 +46,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

@@ -1,18 +1,34 @@
-"use client"; 
+"use client";
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Skeleton from "../../components/Skeleton";
 
-// function to fetch product details from the API
+/**
+ * Fetches product details from the API based on the productId
+ *
+ * @param {string} productId - The ID of the product to fetch
+ * @returns {Promise<object>} - A promise that resolves to the product details
+ * @throws Will throw an error if the product is not found
+ */
 async function fetchProduct(productId) {
-  const response = await fetch(`https://next-ecommerce-api.vercel.app/products/${productId}`);
+  const response = await fetch(
+    `https://next-ecommerce-api.vercel.app/products/${productId}`
+  );
   if (!response.ok) {
     throw new Error("Product not found");
   }
   return response.json();
 }
-
+/**
+ * ProductDetail Component
+ *
+ * Displays detailed information about a product including images, description, price, and reviews.
+ * It handles fetching the product data from the API and includes a loading state using a skeleton loader.
+ *
+ * @component
+ * @returns {JSX.Element} - The rendered product detail page
+ */
 export default function ProductDetail() {
   const { productId } = useParams(); // get productId from the URL
   const [product, setProduct] = useState(null); // store product details
@@ -23,6 +39,9 @@ export default function ProductDetail() {
   useEffect(() => {
     if (!productId) return;
 
+    /**
+     * Fetch and load product data from the API
+     */
     async function loadProduct() {
       try {
         setLoading(true); // show loading indicator
@@ -37,13 +56,23 @@ export default function ProductDetail() {
     loadProduct();
   }, [productId]);
 
-  // handle next and previous image
+  /**
+   * Handle switching to the next image in the carousel
+   */
   const handleNext = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % product.images.length);
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex + 1) % product.images.length
+    );
   };
 
+  /**
+   * Handle switching to the previous image in the carousel
+   */
   const handlePrevious = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + product.images.length) % product.images.length);
+    setCurrentImageIndex(
+      (prevIndex) =>
+        (prevIndex - 1 + product.images.length) % product.images.length
+    );
   };
 
   if (loading) {
@@ -58,12 +87,19 @@ export default function ProductDetail() {
   }
 
   if (error) {
-    return <div className="text-center text-red-500 mt-80 mb-80">{error}: Oops, failed to load product details</div>;
+    return (
+      <div className="text-center text-red-500 mt-80 mb-80">
+        {error}: Oops, failed to load product details
+      </div>
+    );
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <button onClick={() => window.history.back()} className="bg-orange-500 text-white px-4 py-2 mb-8 rounded-md hover:bg-orange-600 transition-colors">
+      <button
+        onClick={() => window.history.back()}
+        className="bg-orange-500 text-white px-4 py-2 mb-8 rounded-md hover:bg-orange-600 transition-colors"
+      >
         Back to Products
       </button>
 
@@ -75,7 +111,11 @@ export default function ProductDetail() {
           <div className="relative mb-8">
             {product.images.length > 1 ? (
               <>
-                <img src={product.images[currentImageIndex]} alt={product.title} className="h-96 w-96 object-contain mx-auto rounded-lg shadow-lg" />
+                <img
+                  src={product.images[currentImageIndex]}
+                  alt={product.title}
+                  className="h-96 w-96 object-contain mx-auto rounded-lg shadow-lg"
+                />
                 {/* previous button */}
                 <button
                   className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-black bg-opacity-50 text-white px-2 py-1 rounded"
@@ -92,23 +132,34 @@ export default function ProductDetail() {
                 </button>
               </>
             ) : (
-              <img src={product.images[0]} alt={product.title} className="h-96 w-96 object-cover mx-auto rounded-lg shadow-lg" />
+              <img
+                src={product.images[0]}
+                alt={product.title}
+                className="h-96 w-96 object-cover mx-auto rounded-lg shadow-lg"
+              />
             )}
           </div>
 
           {/* product details */}
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">{product.title}</h1>
+            <h1 className="text-4xl font-bold text-gray-800 mb-4">
+              {product.title}
+            </h1>
             <p className="text-gray-700 mb-4">{product.description}</p>
             <p className="text-2xl text-gray-600 mb-2">${product.price}</p>
-            <p className="text-md text-gray-500 mb-2">Category: {product.category}</p>
-            <p className="text-md text-gray-500 mb-4">Tags: {product.tags.join(", ")}</p>
-            
+            <p className="text-md text-gray-500 mb-2">
+              Category: {product.category}
+            </p>
+            <p className="text-md text-gray-500 mb-4">
+              Tags: {product.tags.join(", ")}
+            </p>
 
             <div className="flex flex-col items-center space-y-2">
               <p className="text-yellow-500">Rating: {product.rating} / 5</p>
               <p className="text-gray-600">Stock: {product.stock}</p>
-              <p className="text-gray-600">Availability: {product.availabilityStatus}</p>
+              <p className="text-gray-600">
+                Availability: {product.availabilityStatus}
+              </p>
             </div>
           </div>
         </div>
@@ -118,11 +169,20 @@ export default function ProductDetail() {
           <h2 className="text-2xl font-bold mb-6">Customer Reviews: </h2>
           {product.reviews.length > 0 ? (
             product.reviews.map((review) => (
-              <div key={review.id} className="border p-4 rounded-lg shadow-lg mb-4">
-                <p className="font-bold text-md mb-2">{review.reviewerName} - ({review.reviewerEmail})</p>
-                <p className="text-gray-600 mb-2">{new Date(review.date).toLocaleDateString()}</p>
+              <div
+                key={review.id}
+                className="border p-4 rounded-lg shadow-lg mb-4"
+              >
+                <p className="font-bold text-md mb-2">
+                  {review.reviewerName} - ({review.reviewerEmail})
+                </p>
+                <p className="text-gray-600 mb-2">
+                  {new Date(review.date).toLocaleDateString()}
+                </p>
                 <p>{review.comment}</p>
-                <p className="text-yellow-500 mt-2">Rating: {review.rating} / 5</p>
+                <p className="text-yellow-500 mt-2">
+                  Rating: {review.rating} / 5
+                </p>
               </div>
             ))
           ) : (
