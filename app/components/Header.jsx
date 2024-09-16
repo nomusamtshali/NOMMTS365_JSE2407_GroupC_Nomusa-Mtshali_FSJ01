@@ -25,7 +25,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // toggle state for the menu
 
   return (
-    <nav className="bg-white shadow-lg p-6">
+    <nav className="bg-white shadow-lg p-6 relative z-50">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-black text-2xl font-bold">
           <Link href="/">MaxiMart</Link>
